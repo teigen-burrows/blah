@@ -1,50 +1,57 @@
 import React from 'react';
 import './App.css';
+import teamData from './CollegeBasketballTeams.json';
 
-interface Team {
+interface TeamProps {
+  tid: number;
   school: string;
   name: string;
   city: string;
   state: string;
-  location: string; // Add location property
 }
 
-class App extends React.Component {
-  state = {
-    teams: [] as Team[],
-  };
+const teamNames: TeamProps[] = teamData.teams;
 
-  async componentDidMount() {
-    try {
-      const response = await fetch('./CollegeBasketballTeams.json');
-      const data = await response.json();
-      const teams = data.teams.map((team: any) => ({
-        ...team,
-        location: `${team.city}, ${team.state}`,
-      }));
-      this.setState({ teams });
-    } catch (error) {
-      console.error('Error fetching teams:', error);
-    }
-  }
+function TeamList() {
+  return (
+    <div className="TeamList">
+      {teamNames.map(function (teamNum) {
+        return <Team {...teamNum} key={teamNum.tid} />;
+      })}
+    </div>
+  );
+}
 
-  render() {
-    return (
-      <div className="App">
-        <h1>March Madness Teams</h1>
-        <ul>
-          {this.state.teams.map((team, index) => (
-            <li key={index}>
-              <h2>{team.name}</h2>
-              <p>
-                {team.school} - {team.location}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+function Welcome() {
+  return (
+    <div className="Welcome">
+      <h1>March Madness College Basketball</h1>
+      <h2>Check out these stellar teams!</h2>
+    </div>
+  );
+}
+
+function Team(props: TeamProps) {
+  const { school, name, city, state } = props;
+  return (
+    <div className="Team">
+      <h3>
+        {school} {name}
+      </h3>
+      <h4>
+        {city}, {state}
+      </h4>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div className="App">
+      <Welcome />
+      <TeamList />
+    </div>
+  );
 }
 
 export default App;
