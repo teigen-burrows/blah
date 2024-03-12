@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.Welcome {
+  margin-bottom: 20px;
+}
+
+.TeamList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.Team {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: left;
+}
